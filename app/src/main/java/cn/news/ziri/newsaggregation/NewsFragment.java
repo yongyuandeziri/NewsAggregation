@@ -22,11 +22,8 @@ import cn.news.ziri.newsaggregation.fragment.NewsListFragment;
 public class NewsFragment extends Fragment {
     private TabLayout mTablayout;
     private ViewPager viewpager;
+    public static List<String> titles = new ArrayList<>();//方便之后动态添加标签
 
-    public static final int ONE=0;
-    public static final int TWO=1;
-    public static final int THREE=2;
-    public static final int FOUR=3;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.newsfragment, null);
@@ -37,24 +34,32 @@ public class NewsFragment extends Fragment {
     private void initView(View view) {
 
         mTablayout = (TabLayout) view.findViewById(R.id.tab_layout);
-        //mTablayout.setTabMode(TabLayout.MODE_SCROLLABLE);//挤在一起显示
+//        mTablayout.setTabMode(TabLayout.MODE_SCROLLABLE);//挤在一起显示
         viewpager = (ViewPager) view.findViewById(R.id.viewpager);
-        setupViewPager(viewpager);
-        mTablayout.addTab(mTablayout.newTab().setText("头条"));
-        mTablayout.addTab(mTablayout.newTab().setText("NBA"));
-        mTablayout.addTab(mTablayout.newTab().setText("汽车"));
-        mTablayout.addTab(mTablayout.newTab().setText("笑话"));
 
+        titles.add("网易");
+        titles.add("凤凰");
+        titles.add("无线苏州");
+        titles.add("新浪微博");
+        titles.add("GITHUB");
+        titles.add("CSDN");
+        titles.add("DIY社区");
+        titles.add("优顾理财");
+
+        setupViewPager(viewpager,titles);
+
+        for(int i=0;i<titles.size();i++){
+            mTablayout.addTab(mTablayout.newTab().setText(titles.get(i)));
+        }
         mTablayout.setupWithViewPager(viewpager);
 
     }
 
-    private void setupViewPager(ViewPager viewpager) {
+    private void setupViewPager(ViewPager viewpager,List<String> titles) {
         MyPagerAdapter adapter=new MyPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(NewsListFragment.newInstance(ONE),"头条");
-        adapter.addFragment(NewsListFragment.newInstance(TWO),"NBA");
-        adapter.addFragment(NewsListFragment.newInstance(THREE),"汽车");
-        adapter.addFragment(NewsListFragment.newInstance(FOUR),"笑话");
+        for(int i=0;i<titles.size();i++){
+            adapter.addFragment(NewsListFragment.newInstance(i),titles.get(i));
+        }
         viewpager.setAdapter(adapter);
     }
 

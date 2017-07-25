@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">新闻聚合</string>
-
-    <string name="navigation_drawer_open">打开导航抽屉</string>
-    <string name="navigation_drawer_close">关闭导航抽屉</string>
-
-    <string name="action_settings">设置</string>
-    <string name="notice_title">聚合你的资讯世界</string>
-</resources>

@@ -31,7 +31,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshWidget;
-    private int type= NewsFragment.ONE;
+    private int type=-1;
     private LinearLayoutManager mLayoutManger;
     private int pageIndex=0;
 
