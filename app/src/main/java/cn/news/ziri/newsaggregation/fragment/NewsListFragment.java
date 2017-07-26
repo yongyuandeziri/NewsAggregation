@@ -1,11 +1,9 @@
 package cn.news.ziri.newsaggregation.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,10 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import cn.news.ziri.newsaggregation.NewsFragment;
 import cn.news.ziri.newsaggregation.R;
+import cn.news.ziri.newsaggregation.adapter.RecyclerViewAdapter;
 import cn.news.ziri.newsaggregation.bean.DataBean;
 
 /**
@@ -34,7 +31,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
     private int type=-1;
     private LinearLayoutManager mLayoutManger;
     private int pageIndex=0;
-
+    private RecyclerViewAdapter mAdapter;
     private ArrayList<DataBean> mData;
     private FloatingActionButton fa_firstlist;
 
@@ -70,7 +67,6 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
                 R.color.colorAccent);
         mSwipeRefreshWidget.setOnRefreshListener(this);
 
-
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
         mRecyclerView.setHasFixedSize(true);
 
@@ -78,6 +74,9 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
         mRecyclerView.setLayoutManager(mLayoutManger);
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mAdapter = new RecyclerViewAdapter(getActivity());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(mOnItemClickListener);
         mRecyclerView.addOnScrollListener(mOnScrollListener);
 
         fa_firstlist.setOnClickListener(new View.OnClickListener() {
@@ -123,21 +122,21 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
     }
 
     //FirstAdapter点击，跳转到新闻详情界面
-//    private FirstAdapter.OnItemClickListener mOnItemClickListener=new FirstAdapter.OnItemClickListener(){
-//
-//
-//        @Override
-//        public void onItemClick(View view, int position) {
-//            DataBean data = mAdapter.getItem(position);
-//            System.out.println("点击的数据======" + data.getTitle());
+    private RecyclerViewAdapter.OnItemClickListener mOnItemClickListener=new RecyclerViewAdapter.OnItemClickListener(){
+
+
+        @Override
+        public void onItemClick(View view, int position) {
+            DataBean data = mAdapter.getItem(position);
+            System.out.println("点击的数据======" + data.getTitle());
 //            Intent intent = new Intent(getActivity(), FirstDetilActivity.class);
 //            intent.putExtra("news", data);
-//
-//            View intoView = view.findViewById(R.id.ivNews);
+
+            View intoView = view.findViewById(R.id.ivNews);
 //            ActivityOptionsCompat options =
 //                    ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
 //                            intoView, getString(R.string.transition_news_img));
 //            ActivityCompat.startActivity(getActivity(),intent,options.toBundle());
-//        }
-//    };
+        }
+    };
 }

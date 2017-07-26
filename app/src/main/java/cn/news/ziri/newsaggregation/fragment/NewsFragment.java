@@ -1,4 +1,4 @@
-package cn.news.ziri.newsaggregation;
+package cn.news.ziri.newsaggregation.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.news.ziri.newsaggregation.R;
 import cn.news.ziri.newsaggregation.fragment.NewsListFragment;
 
 /**
@@ -22,7 +23,7 @@ import cn.news.ziri.newsaggregation.fragment.NewsListFragment;
 public class NewsFragment extends Fragment {
     private TabLayout mTablayout;
     private ViewPager viewpager;
-    public static List<String> titles = new ArrayList<>();//方便之后动态添加标签
+    public static List<String> titles = new ArrayList<>();//方便之后动态添加标签，让用户自定义数据源
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
