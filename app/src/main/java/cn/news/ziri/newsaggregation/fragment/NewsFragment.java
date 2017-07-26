@@ -37,7 +37,7 @@ public class NewsFragment extends Fragment {
         mTablayout = (TabLayout) view.findViewById(R.id.tab_layout);
 //        mTablayout.setTabMode(TabLayout.MODE_SCROLLABLE);//挤在一起显示
         viewpager = (ViewPager) view.findViewById(R.id.viewpager);
-
+        titles.clear();
         titles.add("网易");
         titles.add("凤凰");
         titles.add("无线苏州");
@@ -59,7 +59,7 @@ public class NewsFragment extends Fragment {
     private void setupViewPager(ViewPager viewpager,List<String> titles) {
         MyPagerAdapter adapter=new MyPagerAdapter(getChildFragmentManager());
         for(int i=0;i<titles.size();i++){
-            adapter.addFragment(NewsListFragment.newInstance(i),titles.get(i));
+            adapter.addFragment(NewsListFragment.newInstance(titles.get(i)),titles.get(i));
         }
         viewpager.setAdapter(adapter);
     }

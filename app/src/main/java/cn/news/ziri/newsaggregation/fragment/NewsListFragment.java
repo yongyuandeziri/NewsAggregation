@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,10 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.news.ziri.newsaggregation.R;
+import cn.news.ziri.newsaggregation.activity.NewsDetailActivity;
 import cn.news.ziri.newsaggregation.adapter.RecyclerViewAdapter;
 import cn.news.ziri.newsaggregation.bean.DataBean;
+import cn.news.ziri.newsaggregation.commons.Urls;
+import cn.news.ziri.newsaggregation.utils.NewsJsonUtils;
+import cn.news.ziri.newsaggregation.utils.OkHttpUtils;
 
 /**
  * Created by ward on 2017/7/24.
@@ -28,17 +34,17 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshWidget;
-    private int type=-1;
+    private String newsfrom="";
     private LinearLayoutManager mLayoutManger;
     private int pageIndex=0;
     private RecyclerViewAdapter mAdapter;
     private ArrayList<DataBean> mData;
     private FloatingActionButton fa_firstlist;
 
-    public static NewsListFragment newInstance(int type) {
+    public static NewsListFragment newInstance(String newsfrom) {
         Bundle bundle = new Bundle();
         NewsListFragment fragment = new NewsListFragment();
-        bundle.putInt("type", type);
+        bundle.putString("newsfrom", newsfrom);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -46,8 +52,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        firstPresenter = new FirstFragmentImpl(this);
-        type = getArguments().getInt("type");
+        newsfrom = getArguments().getString("newsfrom");
     }
 
     @Nullable
@@ -106,7 +111,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
             //正在滚动
             if(newState==RecyclerView.SCROLL_STATE_IDLE){
 
-//                firstPresenter.loadData(type,pageIndex+Urls.PAZE_SIZE);
+                loadData(newsfrom,pageIndex+Urls.PAZE_SIZE);
             }
         }
     };
@@ -118,7 +123,7 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
         if(null!=mData){
             mData.clear();
         }
-//        firstPresenter.loadData(type,pageIndex);
+        loadData(newsfrom,pageIndex);
     }
 
     //FirstAdapter点击，跳转到新闻详情界面
@@ -129,14 +134,154 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
         public void onItemClick(View view, int position) {
             DataBean data = mAdapter.getItem(position);
             System.out.println("点击的数据======" + data.getTitle());
-//            Intent intent = new Intent(getActivity(), FirstDetilActivity.class);
-//            intent.putExtra("news", data);
+            Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+            intent.putExtra("news", data);
 
             View intoView = view.findViewById(R.id.ivNews);
-//            ActivityOptionsCompat options =
-//                    ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-//                            intoView, getString(R.string.transition_news_img));
-//            ActivityCompat.startActivity(getActivity(),intent,options.toBundle());
+            ActivityOptionsCompat options =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                            intoView, getString(R.string.transition_news_img));
+            ActivityCompat.startActivity(getActivity(),intent,options.toBundle());
         }
     };
+
+    private String getUrl(String newsfrom, int page) {
+        StringBuilder sb=new StringBuilder();
+        switch (newsfrom){
+            case "网易":
+                sb.append(Urls.TOP_URL).append(Urls.TOP_ID);
+                break;
+            case "凤凰":
+                sb.append(Urls.COMMON_URL).append(Urls.NBA_ID);
+                break;
+            case "无线苏州":
+                sb.append(Urls.COMMON_URL).append(Urls.CAR_ID);
+                break;
+            case "新浪微博":
+                sb.append(Urls.COMMON_URL).append(Urls.JOKE_ID);
+                break;
+            case "GITHUB":
+                sb.append(Urls.TOP_URL).append(Urls.TOP_ID);
+                break;
+            case "CSDN":
+                sb.append(Urls.COMMON_URL).append(Urls.NBA_ID);
+                break;
+            case "DIY社区":
+                sb.append(Urls.COMMON_URL).append(Urls.CAR_ID);
+                break;
+            case "优顾理财":
+                sb.append(Urls.COMMON_URL).append(Urls.JOKE_ID);
+                break;
+            default:
+                sb.append(Urls.TOP_URL).append(Urls.TOP_ID);
+                break;
+        }
+        sb.append("/").append(page).append(Urls.END_URL);
+        return sb.toString();
+    }
+
+
+    /**
+     * 获取ID
+     * @param type
+     * @return
+     */
+    private String getID(String type) {
+        String id;
+        switch (type) {
+            case "网易":
+                id = Urls.TOP_ID;
+                break;
+            case "凤凰":
+                id = Urls.NBA_ID;
+                break;
+            case "无线苏州":
+                id = Urls.CAR_ID;
+                break;
+            case "新浪微博":
+                id = Urls.JOKE_ID;
+                break;
+            case "GITHUB":
+                id = Urls.TOP_ID;
+                break;
+            case "CSDN":
+                id = Urls.NBA_ID;
+                break;
+            case "DIY社区":
+                id = Urls.CAR_ID;
+                break;
+            case "优顾理财":
+                id = Urls.JOKE_ID;
+                break;
+            default:
+                id = Urls.TOP_ID;
+                break;
+        }
+        return id;
+    }
+
+
+
+
+    public void showProgress() {
+        mSwipeRefreshWidget.setRefreshing(true);
+    }
+
+    public void hideProgress() {
+        mSwipeRefreshWidget.setRefreshing(false);
+    }
+
+    public void addData(List<DataBean> mlist) {
+        if(null==mData){
+            mData = new ArrayList<>();
+        }
+        mData.addAll(mlist);
+        if(pageIndex==0){
+            mAdapter.setData(mData);
+        }else{
+            //没有加载更多的数据时候，，隐藏加载更多的布局
+            if(mlist.size()==0||mlist==null){
+                mAdapter.isShowFooter(false);
+            }
+            mAdapter.notifyDataSetChanged();
+        }
+        pageIndex += Urls.PAZE_SIZE;
+    }
+
+    //当没有网络或者加载失败的时候，隐藏进度，自动弹出提示框
+    public void showLoadFail() {
+        if(pageIndex==0){
+            mAdapter.isShowFooter(false);
+            mAdapter.notifyDataSetChanged();
+        }
+        View view = getActivity() == null ? mRecyclerView.getRootView() : getActivity().findViewById(R.id.drawer_layout);
+        if(view!=null) Snackbar.make(view,"数据加载失败",Snackbar.LENGTH_SHORT).show();
+    }
+
+    public void loadData(final Object newsfrom, int page) {
+        String  url= getUrl((String)newsfrom,page);
+        System.out.println("url========="+url);
+        if(page==0){
+            this.showProgress();
+        }
+
+        OkHttpUtils.ResultCallback<String> loadNewsCallback=new OkHttpUtils.ResultCallback<String>() {
+            @Override
+            public void onSuccess(String response) {
+                List<DataBean> dataBeans = NewsJsonUtils.readJsonDataBeans(response, getID((String)newsfrom));
+                hideProgress();
+                addData(dataBeans);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                hideProgress();
+                showLoadFail();
+            }
+        };
+        OkHttpUtils.get(url, loadNewsCallback);
+    }
+
+
+
 }

@@ -133,6 +133,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public interface  OnItemClickListener {
         void onItemClick(View view,int position);
     }
+    //给外部类调用,实例化后设置引用
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.mOnItemClickListener=onItemClickListener;
     }

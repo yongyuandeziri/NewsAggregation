@@ -1,4 +1,4 @@
-package cn.news.ziri.newsaggregation;
+package cn.news.ziri.newsaggregation.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import cn.news.ziri.newsaggregation.R;
 import cn.news.ziri.newsaggregation.fragment.NewsFragment;
 
 public class MainActivity extends AppCompatActivity

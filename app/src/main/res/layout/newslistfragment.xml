@@ -25,6 +25,8 @@
         android:src="@mipmap/ic_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_anchor="@id/swipe_refresh_widget"
+        app:layout_anchorGravity="bottom|end"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         />
