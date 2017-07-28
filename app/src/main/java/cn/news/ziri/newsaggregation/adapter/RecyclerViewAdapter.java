@@ -28,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int TYPE_FOOTER=1;
     private OnItemClickListener mOnItemClickListener;
     private List<DataBean> mData;
-    private boolean mShowFooter=true;
+    private boolean mShowFooter=false;
     private Context mContext;
 
     public RecyclerViewAdapter(Context context) {
@@ -86,7 +86,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if(holder instanceof ItemViewHolder){
             DataBean dataBean = mData.get(position);
             ((ItemViewHolder) holder).mTitle.setText(dataBean.getTitle());
-            ((ItemViewHolder) holder).mDesc.setText(dataBean.getDigest());
+//            ((ItemViewHolder) holder).mDesc.setText(dataBean.getDigest()); 取消在recyclerview中显示内容详情，让出空间给标题显示
             ImageLoaderUtils.display(mContext, ((ItemViewHolder) holder).mNewsImg, dataBean.getImgsrc());
         }
     }
@@ -103,13 +103,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class ItemViewHolder extends  RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView mTitle;
-        public TextView mDesc;
+//        public TextView mDesc;
         public ImageView mNewsImg;
 
         public ItemViewHolder(View v) {
             super(v);
             mTitle = (TextView) v.findViewById(R.id.tvTitle);
-            mDesc = (TextView) v.findViewById(R.id.tvDesc);
+//            mDesc = (TextView) v.findViewById(R.id.tvDesc);
             mNewsImg = (ImageView) v.findViewById(R.id.ivNews);
             v.setOnClickListener(this);//给item注册点击监听 必须写
         }

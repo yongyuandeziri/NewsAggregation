@@ -63,9 +63,10 @@ public class NewsDetailActivity extends AppCompatActivity {
 
 
         mData = (DataBean) getIntent().getSerializableExtra("news");
-        collapsing_toolbar.setTitle(mData.getTitle());
-        ImageLoaderUtils.display(getApplicationContext(), (ImageView) findViewById(R.id.ivImage), mData.getImgsrc());
-
+        collapsing_toolbar.setTitle(mData.getTitle());//设置折叠状态栏的标题，有缩放的效果
+        String url="http://www.201744pic.pw/uploadfile/2017/0709/20/19.jpg";
+        ImageLoaderUtils.display(getApplicationContext(), (ImageView) findViewById(R.id.ivImage), mData.getImgsrc());//通过url加载图片
+//        ImageLoaderUtils.display(getApplicationContext(), (ImageView) findViewById(R.id.ivImage), url);
         loaddata(mData);
     }
 

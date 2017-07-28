@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">NewsAggregation</string>
+    <string name="title_news">News</string>
+    <string name="title_github">GitHub</string>
+    <string name="title_csdn">CSDN</string>
+    <string name="title_picture">Picture</string>
+    <string name="title_signin">SignIn</string>
+    <string name="title_about">About</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            switchFirst();//新闻
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
