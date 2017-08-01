@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-
+        Logziri.d(getClass()+"onBackPressed");
         if(mCurrentFragment instanceof GitHubFragment){
             ((GitHubFragment)mCurrentFragment).onKeyDown(KEYCODE_BACK);
         }
@@ -126,6 +126,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        }else if(id ==R.id.nav_exit){
+         //退出
+            this.finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
