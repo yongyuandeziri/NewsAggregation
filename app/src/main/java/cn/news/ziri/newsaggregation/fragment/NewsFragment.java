@@ -46,6 +46,7 @@ public class NewsFragment extends Fragment {
         titles.add("CSDN");
         titles.add("DIY社区");
         titles.add("优顾理财");
+        titles.add("更多");
 
         setupViewPager(viewpager,titles);
 

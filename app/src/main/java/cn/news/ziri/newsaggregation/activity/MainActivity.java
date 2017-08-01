@@ -2,20 +2,29 @@ package cn.news.ziri.newsaggregation.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import cn.news.ziri.newsaggregation.R;
+import cn.news.ziri.newsaggregation.fragment.GitHubFragment;
 import cn.news.ziri.newsaggregation.fragment.NewsFragment;
+import cn.news.ziri.newsaggregation.utils.Logziri;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
+import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;
+    private Fragment mCurrentFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,26 +42,48 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        switchFirst();
+        switchToNews();
     }
 
 
-    public void switchFirst() {
-        System.out.println("========="+this.getClass()+"switchFirst");
+    public void switchToNews() {
+        Logziri.d(this.getClass()+"switchToNews");
         toolbar.setTitle("新闻");
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new NewsFragment()).commitAllowingStateLoss();
+        mCurrentFragment=new NewsFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, mCurrentFragment).commitAllowingStateLoss();
+    }
 
+
+    public void switchToGitHub(){
+    Logziri.d(this.getClass()+"switchToGitHub");
+        toolbar.setTitle("GitHub");
+        mCurrentFragment=new GitHubFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
     }
 
 
     @Override
     public void onBackPressed() {
+
+        if(mCurrentFragment instanceof GitHubFragment){
+            ((GitHubFragment)mCurrentFragment).onKeyDown(KEYCODE_BACK);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Logziri.d(getClass()+"onKeydown");
+        if(mCurrentFragment instanceof GitHubFragment){
+            ((GitHubFragment)mCurrentFragment).onKeyDown(keyCode);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -84,11 +115,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            switchFirst();//新闻
+            switchToNews();//新闻
         } else if (id == R.id.nav_gallery) {
-
+            switchToGitHub();//GitHub
         } else if (id == R.id.nav_slideshow) {
-
+//            showShare();//CSDN
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
@@ -100,5 +131,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
