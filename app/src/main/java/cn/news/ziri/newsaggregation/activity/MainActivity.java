@@ -1,7 +1,10 @@
 package cn.news.ziri.newsaggregation.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import cn.news.ziri.newsaggregation.R;
 import cn.news.ziri.newsaggregation.fragment.GitHubFragment;
@@ -25,6 +29,16 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;
     private Fragment mCurrentFragment;
+
+    private static boolean isExit = false;
+    private static Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            isExit = false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +97,7 @@ public class MainActivity extends AppCompatActivity
             ((GitHubFragment)mCurrentFragment).onKeyDown(keyCode);
             return true;
         }
+        exit();//按两次回退退出程序
         return false;
     }
 
@@ -140,4 +155,18 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
+    private void exit() {
+        if (!isExit) {
+            isExit = true;
+            // 利用handler延迟发送更改状态信息
+            View view = findViewById(R.id.drawer_layout);
+            Snackbar.make(view, "再按一次退出程序", Snackbar.LENGTH_SHORT).show();
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+        } else {
+            this.finish();
+        }
+    }
+
 }
