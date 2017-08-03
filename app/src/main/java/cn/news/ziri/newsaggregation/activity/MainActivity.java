@@ -1,5 +1,6 @@
 package cn.news.ziri.newsaggregation.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import cn.news.ziri.newsaggregation.R;
+import cn.news.ziri.newsaggregation.fragment.CloudTagFragment;
 import cn.news.ziri.newsaggregation.fragment.GitHubFragment;
 import cn.news.ziri.newsaggregation.fragment.NewsFragment;
 import cn.news.ziri.newsaggregation.utils.Logziri;
@@ -26,7 +28,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,CloudTagFragment.OnFragmentInteractionListener {
     private Toolbar toolbar;
     private Fragment mCurrentFragment;
 
@@ -75,6 +77,12 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
     }
 
+    public void switchTo3DCloud(){
+        Logziri.d(this.getClass()+"switchTo3DCloud");
+        toolbar.setTitle("修改新闻源");
+        mCurrentFragment=new CloudTagFragment().newInstance("","");
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
+    }
 
     @Override
     public void onBackPressed() {
@@ -117,6 +125,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            if(mCurrentFragment instanceof NewsFragment){
+                switchTo3DCloud();
+            }
             return true;
         }
 
@@ -167,6 +178,11 @@ public class MainActivity extends AppCompatActivity
         } else {
             this.finish();
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Logziri.d(getClass()+"onFragmentInteraction");
     }
 
 }
