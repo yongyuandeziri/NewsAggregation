@@ -1,5 +1,7 @@
 package cn.news.ziri.newsaggregation.activity;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,10 +19,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.news.ziri.newsaggregation.R;
 import cn.news.ziri.newsaggregation.fragment.CloudTagFragment;
 import cn.news.ziri.newsaggregation.fragment.GitHubFragment;
 import cn.news.ziri.newsaggregation.fragment.NewsFragment;
+import cn.news.ziri.newsaggregation.sqlite.NewsSourceSQLiteOpenHelper;
 import cn.news.ziri.newsaggregation.utils.Logziri;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -31,7 +37,14 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,CloudTagFragment.OnFragmentInteractionListener {
     private Toolbar toolbar;
     private Fragment mCurrentFragment;
-
+    private SQLiteDatabase Newsource;
+    public static List<NewsSource> titles = new ArrayList<NewsSource>();//方便之后动态添加标签，让用户自定义数据源
+    public static class NewsSource{
+        String name;
+        String uri;
+        int isNeedJSON;
+        int isselected;
+    }
     private static boolean isExit = false;
     private static Handler mHandler = new Handler() {
         @Override
@@ -58,9 +71,26 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        NewsSourceSQLiteOpenHelper newsourcedb=new NewsSourceSQLiteOpenHelper(this,"newssource.db",null,1);
+        Newsource=newsourcedb.getWritableDatabase();
         switchToNews();
     }
 
+    public Cursor GetSelectedNewsSource(){
+        String isselectted="1";
+        Cursor cursor =Newsource.rawQuery("select * from newssource where isselected=?",new String[]{isselectted});
+        return cursor;
+    }
+
+    public Cursor GetAllNewsSource(){
+        Cursor cursor =Newsource.rawQuery("select * from newssource",new String[]{""});
+        return cursor;
+    }
+
+    public void UpdateNewsSource(String name){
+        Newsource.execSQL("update newsource set isselected=0");//先reset，然后设置可选项
+        Newsource.execSQL("update newsource set isselected=1 where name in ?",new String[]{name});
+    }
 
     public void switchToNews() {
         Logziri.d(this.getClass()+"switchToNews");
@@ -87,9 +117,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         Logziri.d(getClass()+"onBackPressed");
-        if(mCurrentFragment instanceof GitHubFragment){
-            ((GitHubFragment)mCurrentFragment).onKeyDown(KEYCODE_BACK);
-        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -103,7 +130,7 @@ public class MainActivity extends AppCompatActivity
         Logziri.d(getClass()+"onKeydown");
         if(mCurrentFragment instanceof GitHubFragment){
             ((GitHubFragment)mCurrentFragment).onKeyDown(keyCode);
-            return true;
+//            return true;
         }
         exit();//按两次回退退出程序
         return false;
@@ -143,7 +170,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             switchToNews();//新闻
         } else if (id == R.id.nav_gallery) {
-            switchToGitHub();//GitHub
+//            switchToGitHub();//GitHub
         } else if (id == R.id.nav_slideshow) {
 //            showShare();//CSDN
         } else if (id == R.id.nav_manage) {
@@ -165,6 +192,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Newsource.close();
     }
 
 
@@ -173,8 +201,8 @@ public class MainActivity extends AppCompatActivity
             isExit = true;
             // 利用handler延迟发送更改状态信息
             View view = findViewById(R.id.drawer_layout);
-            Snackbar.make(view, "再按一次退出程序", Snackbar.LENGTH_SHORT).show();
-            mHandler.sendEmptyMessageDelayed(0, 2000);
+//            Snackbar.make(view, "再按一次退出程序", Snackbar.LENGTH_SHORT).show();
+            mHandler.sendEmptyMessageDelayed(0, 700);
         } else {
             this.finish();
         }

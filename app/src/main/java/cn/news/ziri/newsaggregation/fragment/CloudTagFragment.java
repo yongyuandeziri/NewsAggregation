@@ -80,7 +80,7 @@ public class CloudTagFragment extends Fragment  implements TagCloudView.OnTagCli
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_cloud_tag, container, false);
         //给集合添加数据
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 8; i++) {
             list.add("这是标签" + i);
         }
 

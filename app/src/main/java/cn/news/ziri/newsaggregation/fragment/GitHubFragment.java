@@ -26,8 +26,12 @@ import cn.news.ziri.newsaggregation.utils.Logziri;
 public class GitHubFragment extends Fragment{
     private  WebView browser;
     private ProgressBar pg;
+    private String name;
+    private String uri;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        name=getArguments().getString("name");
+        uri=getArguments().getString("uri");
         View view = inflater.inflate(R.layout.githubfragment, null);
         InitView(view);
         return view;
@@ -37,7 +41,7 @@ public class GitHubFragment extends Fragment{
         //WebView
         pg=(ProgressBar)view.findViewById(R.id.progressBar1);
         browser=(WebView)view.findViewById(R.id.Toweb);
-        browser.loadUrl("https://github.com/");
+        browser.loadUrl(uri);
         //设置可自由缩放网页
         browser.getSettings().setSupportZoom(true);
         browser.getSettings().setBuiltInZoomControls(true);

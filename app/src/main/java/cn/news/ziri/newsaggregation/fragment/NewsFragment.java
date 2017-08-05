@@ -1,5 +1,7 @@
 package cn.news.ziri.newsaggregation.fragment;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,8 @@ import java.util.List;
 
 import cn.news.ziri.newsaggregation.R;
 import cn.news.ziri.newsaggregation.fragment.NewsListFragment;
+import cn.news.ziri.newsaggregation.sqlite.NewsSourceSQLiteOpenHelper;
+import cn.news.ziri.newsaggregation.utils.Logziri;
 
 /**
  * Created by du on 2017/7/19.
@@ -23,7 +27,9 @@ import cn.news.ziri.newsaggregation.fragment.NewsListFragment;
 public class NewsFragment extends Fragment {
     private TabLayout mTablayout;
     private ViewPager viewpager;
-    public static List<String> titles = new ArrayList<>();//方便之后动态添加标签，让用户自定义数据源
+    private Cursor newssource;
+    public static List<String> names = new ArrayList<>();
+    public static List<String> uris = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,34 +39,45 @@ public class NewsFragment extends Fragment {
     }
 
     private void initView(View view) {
+        NewsSourceSQLiteOpenHelper newsourcedb=new NewsSourceSQLiteOpenHelper(getActivity(),"newssource.db",null,1);
+        SQLiteDatabase Newssource=newsourcedb.getWritableDatabase();
+        Cursor ns=Newssource.rawQuery("select * from newssource where isselected=1",null);
 
         mTablayout = (TabLayout) view.findViewById(R.id.tab_layout);
 //        mTablayout.setTabMode(TabLayout.MODE_SCROLLABLE);//挤在一起显示
         viewpager = (ViewPager) view.findViewById(R.id.viewpager);
-        titles.clear();
-        titles.add("网易");
-        titles.add("凤凰");
-        titles.add("无线苏州");
-        titles.add("新浪微博");
-        titles.add("GITHUB");
-        titles.add("CSDN");
-        titles.add("DIY社区");
-        titles.add("优顾理财");
-        titles.add("更多");
+        names.clear();
+        uris.clear();
 
-        setupViewPager(viewpager,titles);
-
-        for(int i=0;i<titles.size();i++){
-            mTablayout.addTab(mTablayout.newTab().setText(titles.get(i)));
+        while(ns.moveToNext()){
+            String name=ns.getString(ns.getColumnIndex("name"));
+            String uri=ns.getString(ns.getColumnIndex("uri"));
+            names.add(name);
+            uris.add(uri);
+            mTablayout.addTab(mTablayout.newTab().setText(name));
+            Logziri.d("name:"+name+"uri:"+uri);
         }
+        setupViewPager(viewpager,names,uris);
         mTablayout.setupWithViewPager(viewpager);
+        ns.close();
+        Newssource.close();
 
     }
 
-    private void setupViewPager(ViewPager viewpager,List<String> titles) {
+    private void setupViewPager(ViewPager viewpager,List<String> names,List<String> uris) {
         MyPagerAdapter adapter=new MyPagerAdapter(getChildFragmentManager());
-        for(int i=0;i<titles.size();i++){
-            adapter.addFragment(NewsListFragment.newInstance(titles.get(i)),titles.get(i));
+        for(int i=0;i<uris.size();i++){
+            if(uris.get(i).equals("")){
+                adapter.addFragment(NewsListFragment.newInstance(names.get(i)),names.get(i));
+            }
+            else{
+                GitHubFragment temp =new GitHubFragment();
+                Bundle bundle=new Bundle();
+                bundle.putString("name",names.get(i));
+                bundle.putString("uri",uris.get(i));
+                temp.setArguments(bundle);
+                adapter.addFragment(temp,names.get(i));
+            }
         }
         viewpager.setAdapter(adapter);
     }

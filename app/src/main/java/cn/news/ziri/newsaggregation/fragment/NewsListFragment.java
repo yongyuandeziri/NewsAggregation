@@ -151,27 +151,6 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
             case "网易":
                 sb.append(Urls.TOP_URL).append(Urls.TOP_ID);
                 break;
-            case "凤凰":
-                sb.append(Urls.COMMON_URL).append(Urls.NBA_ID);
-                break;
-            case "无线苏州":
-                sb.append(Urls.COMMON_URL).append(Urls.CAR_ID);
-                break;
-            case "新浪微博":
-                sb.append(Urls.COMMON_URL).append(Urls.JOKE_ID);
-                break;
-            case "GITHUB":
-                sb.append(Urls.TOP_URL).append(Urls.TOP_ID);
-                break;
-            case "CSDN":
-                sb.append(Urls.COMMON_URL).append(Urls.NBA_ID);
-                break;
-            case "DIY社区":
-                sb.append(Urls.COMMON_URL).append(Urls.CAR_ID);
-                break;
-            case "优顾理财":
-                sb.append(Urls.COMMON_URL).append(Urls.JOKE_ID);
-                break;
             default:
                 sb.append(Urls.TOP_URL).append(Urls.TOP_ID);
                 break;
@@ -191,27 +170,6 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
         switch (type) {
             case "网易":
                 id = Urls.TOP_ID;
-                break;
-            case "凤凰":
-                id = Urls.NBA_ID;
-                break;
-            case "无线苏州":
-                id = Urls.CAR_ID;
-                break;
-            case "新浪微博":
-                id = Urls.JOKE_ID;
-                break;
-            case "GITHUB":
-                id = Urls.TOP_ID;
-                break;
-            case "CSDN":
-                id = Urls.NBA_ID;
-                break;
-            case "DIY社区":
-                id = Urls.CAR_ID;
-                break;
-            case "优顾理财":
-                id = Urls.JOKE_ID;
                 break;
             default:
                 id = Urls.TOP_ID;

@@ -40,4 +40,44 @@ public class Urls {
     //妹子图片API
     public static final String BASE_MEIZITU_URL = "http://www.mzitu.com/";
 
+    /**
+     * 网易新闻头条
+     */
+    public static final String WANGYI_URL=TOP_URL+TOP_ID+"/"+END_URL;
+
+
+    /**
+     * 凤凰新闻
+     */
+    public static final String FENGHUANG_URL="http://i.ifeng.com/";
+
+    /**
+     * 头条新闻
+     */
+    public static final String TOUTIAO_URL="https://m.toutiao.com/";
+
+    /**
+     * 环球新闻
+     */
+    public static final String HUANQIU_URL="http://m.huanqiu.com/";
+
+    /**
+     * 人民网
+     */
+    public static final String RENMIN_URL="http://m.people.cn/";
+
+    /**
+     * 参考消息
+     */
+    public static final String CANKAOXIAOXI_URL="http://m.cankaoxiaoxi.com/";
+
+    /**
+     * 南方周末
+     */
+    public static final String NANFANGZHOUMO_URL="http://m.infzm.com/";
+
+    /**
+     * 经济日报
+     */
+    public static final String JINGJIRIBAO_URL="http://m.ce.cn/yw/";
 }
