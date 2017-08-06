@@ -23,7 +23,7 @@ import cn.news.ziri.newsaggregation.utils.Logziri;
  * Created by ward on 2017/7/29.
  */
 
-public class GitHubFragment extends Fragment{
+public class GitHubFragment extends BaseFragment{
     private  WebView browser;
     private ProgressBar pg;
     private String name;
@@ -83,6 +83,7 @@ public class GitHubFragment extends Fragment{
         });
     }
 
+    @Override
     public boolean onKeyDown(int keyCode) {
         // Check if the key event was the Back button and if there's history
         Logziri.d(getClass()+"onkeydown");

@@ -19,18 +19,19 @@ import cn.news.ziri.newsaggregation.R;
 import cn.news.ziri.newsaggregation.fragment.NewsListFragment;
 import cn.news.ziri.newsaggregation.sqlite.NewsSourceSQLiteOpenHelper;
 import cn.news.ziri.newsaggregation.utils.Logziri;
+import cn.news.ziri.newsaggregation.utils.NoScrollViewPager;
 
 /**
  * Created by du on 2017/7/19.
  */
 
-public class NewsFragment extends Fragment {
+public class NewsFragment extends BaseFragment {
     private TabLayout mTablayout;
-    private ViewPager viewpager;
+    private NoScrollViewPager viewpager;
     private Cursor newssource;
     public static List<String> names = new ArrayList<>();
     public static List<String> uris = new ArrayList<>();
-
+    private  MyPagerAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.newsfragment, null);
@@ -45,7 +46,7 @@ public class NewsFragment extends Fragment {
 
         mTablayout = (TabLayout) view.findViewById(R.id.tab_layout);
 //        mTablayout.setTabMode(TabLayout.MODE_SCROLLABLE);//挤在一起显示
-        viewpager = (ViewPager) view.findViewById(R.id.viewpager);
+        viewpager = (NoScrollViewPager) view.findViewById(R.id.viewpager);
         names.clear();
         uris.clear();
 
@@ -65,7 +66,7 @@ public class NewsFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewpager,List<String> names,List<String> uris) {
-        MyPagerAdapter adapter=new MyPagerAdapter(getChildFragmentManager());
+        adapter=new MyPagerAdapter(getChildFragmentManager());
         for(int i=0;i<uris.size();i++){
             if(uris.get(i).equals("")){
                 adapter.addFragment(NewsListFragment.newInstance(names.get(i)),names.get(i));
@@ -82,6 +83,13 @@ public class NewsFragment extends Fragment {
         viewpager.setAdapter(adapter);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode) {
+        BaseFragment baseFragment = (BaseFragment) adapter.mFragment.get(viewpager.getCurrentItem());
+        baseFragment.onKeyDown(keyCode);
+        Logziri.d(getClass()+"getcurrentItem():"+viewpager.getCurrentItem());
+        return true;
+    }
 
 
     public  static class MyPagerAdapter extends FragmentPagerAdapter {
@@ -104,7 +112,6 @@ public class NewsFragment extends Fragment {
         @Override
         public int getCount() {
             return mFragment.size();
-
         }
 
         @Override
@@ -112,4 +119,8 @@ public class NewsFragment extends Fragment {
             return mFragmentTitle.get(position);
         }
     }
+
+
+
+
 }

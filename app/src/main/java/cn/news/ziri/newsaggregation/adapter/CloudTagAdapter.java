@@ -23,9 +23,11 @@ public class CloudTagAdapter extends TagsAdapter {
 
 
     private List<String> mList;
+    private List<String> mclickList;
 
-    public CloudTagAdapter( List<String> list) {
+    public CloudTagAdapter( List<String> list,List<String> listselected) {
         this.mList = list;
+        this.mclickList=listselected;
     }
 
     @Override
@@ -37,6 +39,9 @@ public class CloudTagAdapter extends TagsAdapter {
     public View getView(Context context, int position, ViewGroup parent) {
         TextView tv = (TextView) View.inflate(context, R.layout.item_cloudtag, null);
         tv.setText(getItem(position));
+        if(mclickList.contains(getItem(position))){
+        tv.setSelected(true);
+        }
         return tv;
     }
 

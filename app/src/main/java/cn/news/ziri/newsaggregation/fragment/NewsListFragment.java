@@ -30,7 +30,7 @@ import cn.news.ziri.newsaggregation.utils.OkHttpUtils;
  * Created by ward on 2017/7/24.
  */
 
-public class NewsListFragment extends android.support.v4.app.Fragment implements  SwipeRefreshLayout.OnRefreshListener {
+public class NewsListFragment extends BaseFragment implements  SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout mSwipeRefreshWidget;
@@ -62,6 +62,11 @@ public class NewsListFragment extends android.support.v4.app.Fragment implements
         initView(view);
         onRefresh();
         return view;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode) {
+        return false;
     }
 
     private void initView(View view) {

@@ -1,6 +1,8 @@
 package cn.news.ziri.newsaggregation.fragment;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -18,6 +20,8 @@ import java.util.List;
 
 import cn.news.ziri.newsaggregation.R;
 import cn.news.ziri.newsaggregation.adapter.CloudTagAdapter;
+import cn.news.ziri.newsaggregation.sqlite.NewsSourceSQLiteOpenHelper;
+import cn.news.ziri.newsaggregation.utils.Logziri;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +36,7 @@ public class CloudTagFragment extends Fragment  implements TagCloudView.OnTagCli
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    SQLiteDatabase Newssource;
     TagCloudView tcvTags;//标签云对象
     Button SelectButoon;//选择标签
     List<String> list = new ArrayList<>();//标签云数据的集合
@@ -74,15 +78,37 @@ public class CloudTagFragment extends Fragment  implements TagCloudView.OnTagCli
         }
     }
 
+    public void UpdateNewsSource(String name){
+        //update newssource set isselected=1 where name in ("凤凰新闻","环球新闻");
+        if(Newssource!=null){
+            Newssource.execSQL("update newssource set isselected=0");//先reset，然后设置可选项
+            Newssource.execSQL("update newssource set isselected=1 where name in "+name);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_cloud_tag, container, false);
         //给集合添加数据
-        for (int i = 0; i < 8; i++) {
-            list.add("这是标签" + i);
+        list.clear();
+        listClick.clear();
+        final NewsSourceSQLiteOpenHelper newsourcedb=new NewsSourceSQLiteOpenHelper(getActivity(),"newssource.db",null,1);
+        Newssource=newsourcedb.getWritableDatabase();
+        Cursor ns=Newssource.rawQuery("select * from newssource",null);
+        while(ns.moveToNext()){
+            String name=ns.getString(ns.getColumnIndex("name"));
+            Logziri.d(getClass()+name);
+            list.add(name);
         }
+        ns=Newssource.rawQuery("select * from newssource where isselected=1",null);
+        while(ns.moveToNext()){
+            String name=ns.getString(ns.getColumnIndex("name"));
+            Logziri.d(getClass()+name);
+            listClick.add(name);
+        }
+        ns.close();
 
         tcvTags = (TagCloudView) view.findViewById(R.id.tcv_tags);
         SelectButoon=(Button) view.findViewById(R.id.selectbutton);
@@ -90,13 +116,25 @@ public class CloudTagFragment extends Fragment  implements TagCloudView.OnTagCli
             @Override
             public void onClick(View v) {
                 //保存数据并且传送数据到“新闻”页面
-
+                StringBuilder sb= new StringBuilder();
+                sb.append("(");
+                for(int i=0;i<listClick.size();i++){
+                    sb.append("\"").append(listClick.get(i)).append("\"").append(",");
+                }
+                sb.deleteCharAt(sb.length()-1);
+                sb.append(")");
+                Logziri.d(getClass()+"sb is:"+sb.toString());
+                UpdateNewsSource(sb.toString());
+                newsourcedb.close();//关闭数据库
+                if (mListener != null) {
+                    mListener.onFragmentInteraction();
+                }
             }
         });
         //设置标签云的点击事件
         tcvTags.setOnTagClickListener(this);
         //给标签云设置适配器
-        CloudTagAdapter adapter = new CloudTagAdapter(list);
+        CloudTagAdapter adapter = new CloudTagAdapter(list,listClick);
         tcvTags.setAdapter(adapter);
         return view;
     }
@@ -118,9 +156,9 @@ public class CloudTagFragment extends Fragment  implements TagCloudView.OnTagCli
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed() {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction();
         }
     }
 
@@ -153,6 +191,6 @@ public class CloudTagFragment extends Fragment  implements TagCloudView.OnTagCli
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction();
     }
 }

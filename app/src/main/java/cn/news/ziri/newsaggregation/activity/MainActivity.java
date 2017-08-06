@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Logziri.d(getClass()+"onKeydown");
-        if(mCurrentFragment instanceof GitHubFragment){
-            ((GitHubFragment)mCurrentFragment).onKeyDown(keyCode);
+        if(mCurrentFragment instanceof NewsFragment){
+            ((NewsFragment)mCurrentFragment).onKeyDown(keyCode);
 //            return true;
         }
         exit();//按两次回退退出程序
@@ -209,8 +209,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction() {
         Logziri.d(getClass()+"onFragmentInteraction");
+        switchToNews();
     }
 
 }
