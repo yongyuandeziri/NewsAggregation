@@ -1,42 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/AppTheme">
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/emo_im_angel"
             android:title="@string/title_news" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/emo_im_angel"
             android:title="@string/title_github" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/emo_im_cool"
             android:title="@string/title_csdn" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/emo_im_embarrassed"
             android:title="@string/title_picture" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/title_signin" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/title_about" />
-
-            <item
-                android:id="@+id/nav_exit"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/title_exit" />
-
-        </menu>
-    </item>
+    <item android:title="关于"
+           android:id="@+id/nav_contact"
+           android:icon="@drawable/emo_im_foot_in_mouth"/>
 
 </menu>

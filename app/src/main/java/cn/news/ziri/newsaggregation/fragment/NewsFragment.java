@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.news.ziri.newsaggregation.R;
-import cn.news.ziri.newsaggregation.fragment.NewsListFragment;
 import cn.news.ziri.newsaggregation.sqlite.NewsSourceSQLiteOpenHelper;
 import cn.news.ziri.newsaggregation.utils.Logziri;
 import cn.news.ziri.newsaggregation.utils.NoScrollViewPager;
@@ -72,7 +71,7 @@ public class NewsFragment extends BaseFragment {
                 adapter.addFragment(NewsListFragment.newInstance(names.get(i)),names.get(i));
             }
             else{
-                GitHubFragment temp =new GitHubFragment();
+                HttpFragment temp =new HttpFragment();
                 Bundle bundle=new Bundle();
                 bundle.putString("name",names.get(i));
                 bundle.putString("uri",uris.get(i));

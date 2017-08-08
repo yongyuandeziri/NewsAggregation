@@ -2,12 +2,10 @@ package cn.news.ziri.newsaggregation.activity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,14 +22,10 @@ import java.util.List;
 
 import cn.news.ziri.newsaggregation.R;
 import cn.news.ziri.newsaggregation.fragment.CloudTagFragment;
-import cn.news.ziri.newsaggregation.fragment.GitHubFragment;
+import cn.news.ziri.newsaggregation.fragment.HttpFragment;
 import cn.news.ziri.newsaggregation.fragment.NewsFragment;
 import cn.news.ziri.newsaggregation.sqlite.NewsSourceSQLiteOpenHelper;
 import cn.news.ziri.newsaggregation.utils.Logziri;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
-
-import static android.view.KeyEvent.KEYCODE_BACK;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,CloudTagFragment.OnFragmentInteractionListener {
@@ -103,7 +97,22 @@ public class MainActivity extends AppCompatActivity
     public void switchToGitHub(){
     Logziri.d(this.getClass()+"switchToGitHub");
         toolbar.setTitle("GitHub");
-        mCurrentFragment=new GitHubFragment();
+        mCurrentFragment=new HttpFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("name","GitHub");
+        bundle.putString("uri","https://github.com/");
+        mCurrentFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
+    }
+
+    public void switchToCSDN(){
+        Logziri.d(this.getClass()+"switchToCSDN");
+        toolbar.setTitle("CSDN");
+        mCurrentFragment=new HttpFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("name","CSDN");
+        bundle.putString("uri","http://bbs.csdn.net/wap/topics/");
+        mCurrentFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
     }
 
@@ -170,18 +179,13 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             switchToNews();//新闻
         } else if (id == R.id.nav_gallery) {
-//            switchToGitHub();//GitHub
+            switchToGitHub();//GitHub
         } else if (id == R.id.nav_slideshow) {
-//            showShare();//CSDN
+            switchToCSDN();//CSDN
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_contact) {
 
-        } else if (id == R.id.nav_send) {
-
-        }else if(id ==R.id.nav_exit){
-         //退出
-            this.finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

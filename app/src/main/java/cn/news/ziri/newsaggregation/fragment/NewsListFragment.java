@@ -1,5 +1,6 @@
 package cn.news.ziri.newsaggregation.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +82,7 @@ public class NewsListFragment extends BaseFragment implements  SwipeRefreshLayou
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycle_view);
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManger = new LinearLayoutManager(getActivity());
+        mLayoutManger = new WrapContentLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManger);
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -218,7 +220,7 @@ public class NewsListFragment extends BaseFragment implements  SwipeRefreshLayou
             mAdapter.notifyDataSetChanged();
         }
         View view = getActivity() == null ? mRecyclerView.getRootView() : getActivity().findViewById(R.id.drawer_layout);
-        if(view!=null) Snackbar.make(view,"数据加载失败",Snackbar.LENGTH_SHORT).show();
+        if(view!=null) Snackbar.make(view,"数据加载失败,请检查网络连接",Snackbar.LENGTH_SHORT).show();
     }
 
     public void loadData(final Object newsfrom, int page) {
@@ -245,6 +247,27 @@ public class NewsListFragment extends BaseFragment implements  SwipeRefreshLayou
         OkHttpUtils.get(url, loadNewsCallback);
     }
 
+    public class WrapContentLinearLayoutManager extends LinearLayoutManager {
+        public WrapContentLinearLayoutManager(Context context) {
+            super(context);
+        }
 
+        public WrapContentLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        public WrapContentLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                super.onLayoutChildren(recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
