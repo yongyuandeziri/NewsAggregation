@@ -16,6 +16,10 @@
             android:icon="@drawable/emo_im_cool"
             android:title="@string/title_csdn" />
         <item
+            android:id="@+id/nav_stackoverflow"
+            android:icon="@drawable/emo_im_kissing"
+            android:title="@string/title_stackoverflow" />
+        <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/emo_im_embarrassed"
             android:title="@string/title_picture" />

@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">新闻聚合</string>
+    <string name="app_name">集讯</string>
     <string name="title_news">新闻</string>
     <string name="title_github">GitHub</string>
     <string name="title_csdn">CSDN</string>
+    <string name="title_stackoverflow">StackOverFlow</string>
     <string name="title_picture">美图</string>
     <string name="title_signin">登录</string>
     <string name="title_about">关于</string>
@@ -12,5 +13,5 @@
     <string name="navigation_drawer_close">关闭导航抽屉</string>
 
     <string name="action_settings">设置</string>
-    <string name="notice_title">聚合你的资讯世界</string>
+    <string name="notice_title">集合你的资讯</string>
 </resources>

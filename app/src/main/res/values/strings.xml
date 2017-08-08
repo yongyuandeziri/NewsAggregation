@@ -3,6 +3,7 @@
     <string name="title_news">News</string>
     <string name="title_github">GitHub</string>
     <string name="title_csdn">CSDN</string>
+    <string name="title_stackoverflow">StackOverFlow</string>
     <string name="title_picture">Picture</string>
     <string name="title_signin">SignIn</string>
     <string name="title_about">About</string>

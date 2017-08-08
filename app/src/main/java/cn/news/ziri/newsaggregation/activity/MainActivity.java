@@ -116,6 +116,17 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
     }
 
+    public void switchToStackOverFlow(){
+        Logziri.d(this.getClass()+"switchToStackOverFlow");
+        toolbar.setTitle("StackOverFlow");
+        mCurrentFragment=new HttpFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("name","StackOverFlow");
+        bundle.putString("uri","https://stackoverflow.com/");
+        mCurrentFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
+    }
+
     public void switchTo3DCloud(){
         Logziri.d(this.getClass()+"switchTo3DCloud");
         toolbar.setTitle("修改新闻源");
@@ -140,6 +151,10 @@ public class MainActivity extends AppCompatActivity
         if(mCurrentFragment instanceof NewsFragment){
             ((NewsFragment)mCurrentFragment).onKeyDown(keyCode);
 //            return true;
+        }
+        else if(mCurrentFragment instanceof HttpFragment)
+        {
+            ((HttpFragment)mCurrentFragment).onKeyDown(keyCode);//因为每次只有一个活动的fragment
         }
         exit();//按两次回退退出程序
         return false;
@@ -182,7 +197,10 @@ public class MainActivity extends AppCompatActivity
             switchToGitHub();//GitHub
         } else if (id == R.id.nav_slideshow) {
             switchToCSDN();//CSDN
-        } else if (id == R.id.nav_manage) {
+        }else if(id ==R.id.nav_stackoverflow){
+            switchToStackOverFlow();
+        }
+        else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_contact) {
 
