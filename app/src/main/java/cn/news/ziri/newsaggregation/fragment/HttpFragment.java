@@ -49,11 +49,13 @@ public class HttpFragment extends BaseFragment  implements  SwipeRefreshLayout.O
 
     private void LoadData(View view){
         if(isNetworkConnected(getActivity())==true){
+            browser.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
             browser.loadUrl(uri);
             showProgress();
         }
         else{
             Logziri.d(getClass()+"LoadData else");
+            browser.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
             hideProgress();
             View viewcurrent = getActivity() == null ? view.getRootView() : getActivity().findViewById(R.id.drawer_layout);
             Snackbar.make(viewcurrent, "数据加载失败,请检查网络连接", Snackbar.LENGTH_SHORT).show();
@@ -70,15 +72,27 @@ public class HttpFragment extends BaseFragment  implements  SwipeRefreshLayout.O
 
         //WebView
         browser=(WebView)view.findViewById(R.id.Toweb);
-
+        browser.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         //设置可自由缩放网页
         browser.getSettings().setSupportZoom(true);
-        browser.getSettings().setBuiltInZoomControls(true);
-        browser.getSettings().setJavaScriptEnabled(true);
-
+        browser.getSettings().setBuiltInZoomControls(true);//设置支持缩放
+        browser.getSettings().setJavaScriptEnabled(true); //设置WebView支持JavaScript
+        browser.getSettings().setDefaultTextEncodingName("UTF-8");
         browser.setInitialScale(25);
         browser.getSettings().setUseWideViewPort(true);
         browser.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        browser.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);//设置渲染的优先级
+        browser.getSettings().setDomStorageEnabled(true);// 开启 DOM storage API 功能
+        browser.getSettings().setDatabaseEnabled(true);//开启 database storage API 功能
+        String cacheDirPath = getActivity().getFilesDir().getAbsolutePath() + "/webViewCache"+name;
+        Logziri.d(getClass()+" cacheDirPath"+cacheDirPath);
+        //设置数据库缓存路径
+        browser.getSettings().setDatabasePath(cacheDirPath);
+        //设置  Application Caches 缓存目录
+        browser.getSettings().setAppCachePath(cacheDirPath);
+        browser.getSettings().setAppCacheEnabled(true);//开启 Application Caches 功能
+        browser.getSettings().setLoadWithOverviewMode(true);
+        browser.getSettings().setAllowFileAccess(true);//设置可以访问文件
 
         browser.setWebChromeClient(new WebChromeClient() {
 //            @Override
@@ -167,5 +181,13 @@ public class HttpFragment extends BaseFragment  implements  SwipeRefreshLayout.O
             }
         }
         return false;
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        browser.removeAllViews();
+        browser.destroy();
     }
 }
