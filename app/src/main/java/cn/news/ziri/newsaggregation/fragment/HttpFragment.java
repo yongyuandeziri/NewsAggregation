@@ -80,7 +80,7 @@ public class HttpFragment extends BaseFragment  implements  SwipeRefreshLayout.O
         browser.getSettings().setDefaultTextEncodingName("UTF-8");
         browser.setInitialScale(25);
         browser.getSettings().setUseWideViewPort(true);
-        browser.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        browser.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);//适应内容大小
         browser.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);//设置渲染的优先级
         browser.getSettings().setDomStorageEnabled(true);// 开启 DOM storage API 功能
         browser.getSettings().setDatabaseEnabled(true);//开启 database storage API 功能

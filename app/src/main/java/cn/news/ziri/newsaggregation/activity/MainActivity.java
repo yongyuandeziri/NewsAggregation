@@ -24,6 +24,7 @@ import cn.news.ziri.newsaggregation.R;
 import cn.news.ziri.newsaggregation.fragment.CloudTagFragment;
 import cn.news.ziri.newsaggregation.fragment.HttpFragment;
 import cn.news.ziri.newsaggregation.fragment.NewsFragment;
+import cn.news.ziri.newsaggregation.fragment.PictureFragment;
 import cn.news.ziri.newsaggregation.sqlite.NewsSourceSQLiteOpenHelper;
 import cn.news.ziri.newsaggregation.utils.Logziri;
 
@@ -127,6 +128,20 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
     }
 
+    public void switchToAbout(){
+        Logziri.d(this.getClass()+"switchToAbout");
+        toolbar.setTitle("关于");
+        mCurrentFragment=new HttpFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
+    }
+
+    public void switchToPicture(){
+        Logziri.d(this.getClass()+"switchToPicture");
+        toolbar.setTitle("图片");
+        mCurrentFragment=new PictureFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
+    }
+
     public void switchTo3DCloud(){
         Logziri.d(this.getClass()+"switchTo3DCloud");
         toolbar.setTitle("修改新闻源");
@@ -198,12 +213,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
             switchToCSDN();//CSDN
         }else if(id ==R.id.nav_stackoverflow){
-            switchToStackOverFlow();
-        }
-        else if (id == R.id.nav_manage) {
-
+            switchToStackOverFlow();//stackoverflow
+        }else if (id == R.id.nav_picture){
+            switchToPicture();//picture
         } else if (id == R.id.nav_contact) {
-
+            switchToAbout();//contact
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

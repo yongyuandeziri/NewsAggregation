@@ -20,7 +20,7 @@
             android:icon="@drawable/emo_im_kissing"
             android:title="@string/title_stackoverflow" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_picture"
             android:icon="@drawable/emo_im_embarrassed"
             android:title="@string/title_picture" />
     </group>
