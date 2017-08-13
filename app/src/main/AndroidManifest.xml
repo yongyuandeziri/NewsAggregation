@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.news.ziri.newsaggregation">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="cn.news.ziri.newsaggregation"
+    android:versionCode="@string/versioncode"
+    android:versionName="@string/versionname">
     <!-- 添加必要的权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -50,8 +53,8 @@
             </intent-filter>
         </activity>
         <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
-        <meta-data android:name="Mob-AppKey" android:value="1fce13a7b59a4"/>
-        <meta-data android:name="Mob-AppSecret" android:value="60ebbdbc60dcfb4078da24b639938009"/>
+        <!--<meta-data android:name="Mob-AppKey" android:value="1fce13a7b59a4"/>-->
+        <!--<meta-data android:name="Mob-AppSecret" android:value="60ebbdbc60dcfb4078da24b639938009"/>-->
     </application>
 
 </manifest>

@@ -1,4 +1,8 @@
 <resources>
+    <string name="versioncheck">版本检测</string>
+    <string name="policy">免责声明</string>
+    <string name="aboutus">关于我们</string>
+
     <string name="app_name">集讯</string>
     <string name="title_news">新闻</string>
     <string name="title_github">GitHub</string>

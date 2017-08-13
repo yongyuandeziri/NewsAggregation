@@ -2,6 +2,7 @@ package cn.news.ziri.newsaggregation.activity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,19 +22,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.news.ziri.newsaggregation.R;
+import cn.news.ziri.newsaggregation.fragment.AboutFragment;
 import cn.news.ziri.newsaggregation.fragment.CloudTagFragment;
 import cn.news.ziri.newsaggregation.fragment.HttpFragment;
+import cn.news.ziri.newsaggregation.fragment.ItemFragment;
 import cn.news.ziri.newsaggregation.fragment.NewsFragment;
 import cn.news.ziri.newsaggregation.fragment.PictureFragment;
+import cn.news.ziri.newsaggregation.fragment.dummy.DummyContent;
 import cn.news.ziri.newsaggregation.sqlite.NewsSourceSQLiteOpenHelper;
 import cn.news.ziri.newsaggregation.utils.Logziri;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,CloudTagFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,CloudTagFragment.OnFragmentInteractionListener,AboutFragment.OnFragmentInteractionListener,ItemFragment.OnListFragmentInteractionListener {
     private Toolbar toolbar;
     private Fragment mCurrentFragment;
     private SQLiteDatabase Newsource;
     public static List<NewsSource> titles = new ArrayList<NewsSource>();//方便之后动态添加标签，让用户自定义数据源
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+        switchToAbout();
+    }
+
+    @Override
+    public void onFragmentInteraction(boolean flag) {
+
+    }
+
     public static class NewsSource{
         String name;
         String uri;
@@ -130,8 +145,8 @@ public class MainActivity extends AppCompatActivity
 
     public void switchToAbout(){
         Logziri.d(this.getClass()+"switchToAbout");
-        toolbar.setTitle("关于");
-        mCurrentFragment=new HttpFragment();
+        toolbar.setTitle("关于集讯");
+        mCurrentFragment=new AboutFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,mCurrentFragment).commitAllowingStateLoss();
     }
 
@@ -170,6 +185,8 @@ public class MainActivity extends AppCompatActivity
         else if(mCurrentFragment instanceof HttpFragment)
         {
             ((HttpFragment)mCurrentFragment).onKeyDown(keyCode);//因为每次只有一个活动的fragment
+        }else if(mCurrentFragment instanceof AboutFragment){
+            ((AboutFragment)mCurrentFragment).onKeyDown(keyCode);
         }
         exit();//按两次回退退出程序
         return false;

@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.news.ziri.newsaggregation.fragment.AboutFragment">
+
+        <ImageView
+            android:id="@+id/imageicon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/versionname"
+            android:layout_below="@+id/imageicon"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:gravity="center_horizontal"
+            android:text="@string/versionname" />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/versioncheckbutton"
+            android:text="@string/versioncheck"
+            android:layout_below="@+id/versionname"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/policybutton"
+            android:text="@string/policy"
+            android:layout_below="@+id/versioncheckbutton"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/aboutusbutton"
+            android:text="@string/aboutus"
+            android:layout_below="@+id/policybutton"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
+
+</RelativeLayout>

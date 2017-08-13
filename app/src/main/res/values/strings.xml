@@ -1,4 +1,10 @@
 <resources>
+    <string name="versioncode">1</string>
+    <string name="versionname">V1.0.0</string>
+    <string name="versioncheck">Check Version</string>
+    <string name="policy">Policy</string>
+    <string name="aboutus">About Us</string>
+
     <string name="app_name">NewsAggregation</string>
     <string name="title_news">News</string>
     <string name="title_github">GitHub</string>
