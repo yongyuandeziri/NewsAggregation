@@ -1,5 +1,6 @@
 package cn.news.ziri.newsaggregation.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +59,7 @@ public class PictureFragment extends Fragment  implements View.OnClickListener,S
         mSwipeRefreshWidget.setOnRefreshListener(this);
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManger = new LinearLayoutManager(getActivity());
+        mLayoutManger = new WrapContentLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManger);
 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -144,6 +146,29 @@ public class PictureFragment extends Fragment  implements View.OnClickListener,S
             }
         };
         OkHttpUtils.get(url, loadNewsCallback);
+    }
+
+    public class WrapContentLinearLayoutManager extends LinearLayoutManager {
+        public WrapContentLinearLayoutManager(Context context) {
+            super(context);
+        }
+
+        public WrapContentLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        public WrapContentLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            try {
+                super.onLayoutChildren(recycler, state);
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void prasedata( List<ThreeDataBean> list){

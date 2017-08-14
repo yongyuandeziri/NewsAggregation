@@ -50,7 +50,12 @@ public class HttpFragment extends BaseFragment  implements  SwipeRefreshLayout.O
     private void LoadData(View view){
         if(isNetworkConnected(getActivity())==true){
             browser.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-            browser.loadUrl(uri);
+            if(uri.equals("")==false) {
+                browser.loadUrl(uri);
+                uri="";
+            }else{
+                browser.loadUrl(browser.getUrl());
+            }
             showProgress();
         }
         else{

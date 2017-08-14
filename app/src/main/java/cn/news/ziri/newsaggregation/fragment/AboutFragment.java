@@ -40,7 +40,6 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     public boolean onKeyDown(int keyCode) {
-        if(mListener!=null) mListener.onFragmentInteraction(true);
         return false;
     }
 
@@ -89,7 +88,7 @@ public class AboutFragment extends BaseFragment {
         AboutUs.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,new ItemFragment()).commitAllowingStateLoss();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_content,new ItemFragment()).commitAllowingStateLoss();
             }
         });
 

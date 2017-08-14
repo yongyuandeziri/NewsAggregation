@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(boolean flag) {
-
+        switchToAbout();
     }
 
     public static class NewsSource{
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity
         {
             ((HttpFragment)mCurrentFragment).onKeyDown(keyCode);//因为每次只有一个活动的fragment
         }else if(mCurrentFragment instanceof AboutFragment){
-            ((AboutFragment)mCurrentFragment).onKeyDown(keyCode);
+            switchToAbout();
         }
         exit();//按两次回退退出程序
         return false;

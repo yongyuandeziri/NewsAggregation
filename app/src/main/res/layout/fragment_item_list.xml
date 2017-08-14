@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="cn.news.ziri.newsaggregation.fragment.ItemFragment"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="cn.news.ziri.newsaggregation.fragment.ItemFragment"
-    tools:listitem="@layout/fragment_item2" />
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:textSize="12sp"
+        android:textAlignment="gravity"
+        android:text="
+        集讯是一款资讯私人订制APP，可以订制个人信息源\n
+        从此不必下载多个客户端，日常信息，通过集讯收于眼底\n
+        作者：yongyuandeziri\n
+        联系方式：nuaaduwei@126.com\n
+        声明：此应用仅用于学习，如要商用，请联系作者\n"
+        />
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="微信扫描二维码，索要源码:"
+    android:layout_marginTop="20dp"
+    android:textSize="15sp"
+    android:textStyle="bold"
+    android:layout_gravity="center_horizontal"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/micromessage"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="2dp"
+        />
+</LinearLayout>

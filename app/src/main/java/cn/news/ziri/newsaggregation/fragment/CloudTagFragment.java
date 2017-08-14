@@ -115,6 +115,8 @@ public class CloudTagFragment extends Fragment  implements TagCloudView.OnTagCli
         SelectButoon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("ward_du onclick");
+                Logziri.d(getClass()+"onclick");
                 //保存数据并且传送数据到“新闻”页面
                 StringBuilder sb= new StringBuilder();
                 sb.append("(");
@@ -127,6 +129,7 @@ public class CloudTagFragment extends Fragment  implements TagCloudView.OnTagCli
                 UpdateNewsSource(sb.toString());
                 newsourcedb.close();//关闭数据库
                 if (mListener != null) {
+                    Logziri.d(getClass()+"onclick111111");
                     mListener.onFragmentInteraction();
                 }
             }
