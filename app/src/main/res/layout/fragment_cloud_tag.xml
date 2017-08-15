@@ -1,22 +1,31 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="cn.news.ziri.newsaggregation.fragment.CloudTagFragment">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/taglayout"
+        android:layout_marginTop="10dp">
+        <com.moxun.tagcloudlib.view.TagCloudView
+            android:id="@+id/tcv_tags"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            app:autoScrollMode="uniform"
+            app:radiusPercent="0.8" />
+    </FrameLayout>
+
     <Button
         android:id="@+id/selectbutton"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/taglayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="选好了"
-        android:clickable="true"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="选好了" />
 
-    <com.moxun.tagcloudlib.view.TagCloudView
-        android:id="@+id/tcv_tags"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="1dp"
-        app:autoScrollMode="uniform"
-        app:radiusPercent="0.8" />
-</FrameLayout>
+</RelativeLayout>
