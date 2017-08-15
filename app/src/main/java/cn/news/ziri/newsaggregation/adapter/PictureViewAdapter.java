@@ -27,7 +27,7 @@ public class PictureViewAdapter extends RecyclerView.Adapter<PictureViewAdapter.
 
     public void setData(List<ThreeDataBean> list){
         this.mData=list;
-        this.notifyDataSetChanged();
+//        this.notifyDataSetChanged();
     }
 
     @Override

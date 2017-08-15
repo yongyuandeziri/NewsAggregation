@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity
             // 利用handler延迟发送更改状态信息
             View view = findViewById(R.id.drawer_layout);
 //            Snackbar.make(view, "再按一次退出程序", Snackbar.LENGTH_SHORT).show();
-            mHandler.sendEmptyMessageDelayed(0, 700);
+            mHandler.sendEmptyMessageDelayed(0, 400);
         } else {
             this.finish();
         }
