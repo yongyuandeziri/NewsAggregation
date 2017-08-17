@@ -33,5 +33,6 @@
         android:src="@drawable/micromessage"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="2dp"
+        android:padding="10dp"
         />
 </LinearLayout>
